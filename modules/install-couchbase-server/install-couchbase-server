@@ -20,8 +20,8 @@ readonly ENTERPRISE_EDITION="enterprise"
 readonly COMMUNITY_EDITION="community"
 readonly DEFAULT_EDITION="$ENTERPRISE_EDITION"
 
-readonly DEFAULT_COUCHBASE_ENTERPRISE_VERSION="5.1.1"
-readonly DEFAULT_COUCHBASE_ENTERPRISE_SHA256_CHECKSUM_UBUNTU_16_04="058acc6567db7acd8dcb80aa55a7a1de1b318848255bcb2878b285c0e52ecc8c"
+readonly DEFAULT_COUCHBASE_ENTERPRISE_VERSION="6.0.1"
+readonly DEFAULT_COUCHBASE_ENTERPRISE_SHA256_CHECKSUM_UBUNTU_18_04="68deed9ba855e2a84500ae99a787c415fc85b4d4dc1140be28ae6f56662bafea"
 readonly DEFAULT_COUCHBASE_ENTERPRISE_SHA256_CHECKSUM_AMAZON_LINUX="0360be31f20709af2a74f602ad7c81fbfd8f40fe9bf671b167f1cc6260cdcc38"
 
 readonly DEFAULT_COUCHBASE_COMMUNITY_VERSION="5.0.1"
@@ -68,7 +68,7 @@ function install_couchbase_on_ubuntu {
 
   log_info "Installing Couchbase $version ($edition edition) on Ubuntu"
 
-  local readonly filepath="couchbase-server-${edition}_${version}-ubuntu16.04_amd64.deb"
+  local readonly filepath="couchbase-server-${edition}_${version}-ubuntu18.04_amd64.deb"
   local readonly url="https://packages.couchbase.com/releases/$version/$filepath"
 
   log_info "Installing Couchbase dependencies"
@@ -241,7 +241,7 @@ function install {
       checksum_type="$MD5_CHECKSUM_TYPE"
     else
       version="$DEFAULT_COUCHBASE_ENTERPRISE_VERSION"
-      checksum=$(os_is_amazon_linux && echo -n "$DEFAULT_COUCHBASE_ENTERPRISE_SHA256_CHECKSUM_AMAZON_LINUX" || echo -n "$DEFAULT_COUCHBASE_ENTERPRISE_SHA256_CHECKSUM_UBUNTU_16_04")
+      checksum=$(os_is_amazon_linux && echo -n "$DEFAULT_COUCHBASE_ENTERPRISE_SHA256_CHECKSUM_AMAZON_LINUX" || echo -n "$DEFAULT_COUCHBASE_ENTERPRISE_SHA256_CHECKSUM_UBUNTU_18_04")
       checksum_type="$SHA256_CHECKSUM_TYPE"
     fi
   fi
@@ -249,6 +249,9 @@ function install {
   log_info "Starting Couchbase install..."
 
   if os_is_ubuntu "16.04"; then
+    install_couchbase_on_ubuntu "$edition" "$version" "$checksum" "$checksum_type"
+  elif os_is_ubuntu "18.04"; then
+    echo "3dr edit to install on ubuntu version 18.04"
     install_couchbase_on_ubuntu "$edition" "$version" "$checksum" "$checksum_type"
   elif os_is_amazon_linux "2"; then
     install_couchbase_on_amazon_linux "$edition" "$version" "$checksum" "$checksum_type"

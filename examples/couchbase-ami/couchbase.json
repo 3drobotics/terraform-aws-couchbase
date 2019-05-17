@@ -8,7 +8,7 @@
   "builders": [{
     "name": "ubuntu-ami",
     "ami_name": "{{user `base_ami_name`}}-ubuntu-example-{{isotime | clean_ami_name}}",
-    "ami_description": "An Ubuntu 16.04 AMI that has Couchbase installed.",
+    "ami_description": "An Ubuntu 18.04 AMI that has Couchbase installed.",
     "instance_type": "t2.micro",
     "region": "{{user `aws_region`}}",
     "type": "amazon-ebs",
@@ -16,7 +16,7 @@
       "filters": {
         "virtualization-type": "hvm",
         "architecture": "x86_64",
-        "name": "*ubuntu-xenial-16.04-amd64-server-*",
+        "name": "*ubuntu-bionic-18.04-amd64-server-*",
         "block-device-mapping.volume-type": "gp2",
         "root-device-type": "ebs"
       },
@@ -113,8 +113,7 @@
   },{
     "type": "shell",
     "inline": [
-      "/tmp/terraform-aws-couchbase/modules/install-couchbase-server/install-couchbase-server --edition {{user `edition`}}",
-      "/tmp/terraform-aws-couchbase/modules/install-sync-gateway/install-sync-gateway --edition {{user `edition`}} --config /tmp/terraform-aws-couchbase/examples/couchbase-ami/sync_gateway.json"
+      "/tmp/terraform-aws-couchbase/modules/install-couchbase-server/install-couchbase-server --edition {{user `edition`}} --version 6.0.1 --checksum 68deed9ba855e2a84500ae99a787c415fc85b4d4dc1140be28ae6f56662bafea  --checksum-type sha256"
     ]
   }],
   "post-processors": [{
