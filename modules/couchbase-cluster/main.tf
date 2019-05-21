@@ -20,6 +20,8 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   health_check_grace_period = "${var.health_check_grace_period}"
   wait_for_capacity_timeout = "${var.wait_for_capacity_timeout}"
 
+  suspended_processes = "${var.suspended_processes}"
+
   tags = [
     {
       key                 = "Name"

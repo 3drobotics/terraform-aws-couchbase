@@ -166,3 +166,9 @@ variable "security_group_tags" {
   type        = "map"
   default     = {}
 }
+
+variable "suspended_processes" {
+  description = "Suspended processes for the autoscaling group (3DR-added)"
+  type = "list"
+  default = []
+}
